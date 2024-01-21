@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CSprite" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ecs/components/CSprite.gd" id="1_v8dxa"]
+[ext_resource type="TileSet" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="2_044gs"]
+
+[resource]
+script = ExtResource("1_v8dxa")
+tile_position = Vector2(0, 0)
+sheet_offset = Vector2i(0, 1)
+tile_set = ExtResource("2_044gs")
+position = Vector2(20, 20)

@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://pboagnvewk20"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="MainMenu"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 401.0
+offset_top = 120.0
+offset_right = 1481.0
+offset_bottom = 248.0
+grow_horizontal = 2
+theme_type_variation = &"HeaderLarge"
+text = "Godot 7DRL Starter 2024"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 645.0
+offset_top = 386.0
+offset_right = 1225.0
+offset_bottom = 654.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGameButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="LoadGameButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Load Game"
+
+[node name="OptionsButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+text = "Quit"

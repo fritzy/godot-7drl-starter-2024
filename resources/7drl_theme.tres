@@ -1,0 +1,40 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://dsnn4faync3h2"]
+
+[ext_resource type="FontFile" uid="uid://b1tu2e66bwpm5" path="res://resources/Winds 7 Basic.ttf" id="1_uoj11"]
+[ext_resource type="Texture2D" uid="uid://b4a22glewpjch" path="res://resources/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-002.png" id="2_51gtu"]
+[ext_resource type="Texture2D" uid="uid://c0hhuw83by5tw" path="res://resources/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-006.png" id="3_i5tbi"]
+[ext_resource type="Texture2D" uid="uid://cpj2j5i0uldt6" path="res://resources/kenney_fantasy-ui-borders/PNG/Double/Border/panel-border-002.png" id="4_02uqu"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smf5s"]
+texture = ExtResource("2_51gtu")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_js2ya"]
+texture = ExtResource("3_i5tbi")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ewx2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pt1it"]
+texture = ExtResource("4_02uqu")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
+[resource]
+default_font = ExtResource("1_uoj11")
+default_font_size = 64
+Button/fonts/font = ExtResource("1_uoj11")
+Button/styles/focus = SubResource("StyleBoxTexture_smf5s")
+Button/styles/hover = SubResource("StyleBoxTexture_js2ya")
+Button/styles/normal = SubResource("StyleBoxEmpty_2ewx2")
+Button/styles/pressed = SubResource("StyleBoxTexture_pt1it")
+HeaderLarge/font_sizes/font_size = 128
+Label/fonts/font = ExtResource("1_uoj11")
