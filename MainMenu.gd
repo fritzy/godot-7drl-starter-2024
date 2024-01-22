@@ -13,7 +13,7 @@ func _ready() -> void:
 	LoadGameButton.pressed.connect(self._loadgamebutton_pressed)
 
 func _quitbutton_pressed():
-	get_tree().quit()
+	Game.quit()
 
 func _newgamebutton_pressed():
 	Game.start_new_game()

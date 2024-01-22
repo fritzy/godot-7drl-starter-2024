@@ -4,8 +4,8 @@ class_name Console
 var hidden := true
 @onready var ConsolePanel := $ConsolePanel
 @onready var ConsoleInput := $ConsolePanel/ConsoleArea/InputContainer/ConsoleInput
-@onready var Log := $ConsolePanel/ConsoleArea/LogScroller/Log
-@onready var Output := $ConsolePanel/ConsoleArea/LogScroller/Log/Output
+@onready var Log := %Log
+@onready var Output := %Log/Output
 @onready var Game := $"/root/7DRL"
 
 var command_help: Dictionary = {}
@@ -18,11 +18,11 @@ func _ready() -> void:
 	ConsoleInput.connect("text_submitted", self._on_consoleinput_submitted)
 	add_command("help", cmd_help, "List commands or specific command", "help [cmd]")
 	add_command("start_game", Game.start_new_game, "Start a new game", "")
+	add_command("quit", Game.quit, "Quit", "<>")
 
 func log(line: String, small: bool = false) -> void:
-	#Output.text = Output.text + "%s\n" % line
 	var label := Label.new()
-	label.text = " " + line
+	label.text = line
 	if small:
 		label.theme_type_variation = "HeaderSmall"
 	Log.add_child(label)

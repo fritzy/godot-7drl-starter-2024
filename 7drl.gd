@@ -25,8 +25,7 @@ func _ready() -> void:
 func _notification(what: int) -> void:
 	# when closing
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		save_window_settings() 
-		get_tree().quit() # default behavior
+		quit()
 
 func load_window_settings() -> void:
 	var ws: WindowResource = ResourceLoader.load("user://windowdata.tres")
@@ -60,3 +59,7 @@ func start_options() -> void:
 
 func start_load_game() -> void:
 	self.console.log("load game")
+
+func quit() -> void:
+	save_window_settings() 
+	get_tree().quit() # default behavior

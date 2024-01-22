@@ -1,10 +1,9 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dsnn4faync3h2"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://dsnn4faync3h2"]
 
-[ext_resource type="FontFile" uid="uid://b1tu2e66bwpm5" path="res://resources/Winds 7 Basic.ttf" id="1_uoj11"]
 [ext_resource type="Texture2D" uid="uid://b4a22glewpjch" path="res://resources/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-002.png" id="2_51gtu"]
 [ext_resource type="Texture2D" uid="uid://c0hhuw83by5tw" path="res://resources/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-006.png" id="3_i5tbi"]
 [ext_resource type="Texture2D" uid="uid://cpj2j5i0uldt6" path="res://resources/kenney_fantasy-ui-borders/PNG/Double/Border/panel-border-002.png" id="4_02uqu"]
-[ext_resource type="FontFile" uid="uid://rxxlnq06a5vi" path="res://resources/Passage 7 Basic.ttf" id="5_8kywx"]
+[ext_resource type="FontFile" uid="uid://b2d8v4buc711r" path="res://resources/PeaberryMono.ttf" id="5_qmjij"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smf5s"]
 texture = ExtResource("2_51gtu")
@@ -30,16 +29,13 @@ texture_margin_right = 32.0
 texture_margin_bottom = 32.0
 
 [resource]
-default_font = ExtResource("5_8kywx")
-default_font_size = 64
-Button/fonts/font = ExtResource("1_uoj11")
+default_font = ExtResource("5_qmjij")
+default_font_size = 36
+Button/font_sizes/font_size = 48
 Button/styles/focus = SubResource("StyleBoxTexture_smf5s")
 Button/styles/hover = SubResource("StyleBoxTexture_js2ya")
 Button/styles/normal = SubResource("StyleBoxEmpty_2ewx2")
 Button/styles/pressed = SubResource("StyleBoxTexture_pt1it")
-HeaderLarge/font_sizes/font_size = 128
+HeaderLarge/font_sizes/font_size = 64
 HeaderSmall/base_type = &"Label"
 HeaderSmall/colors/font_color = Color(0.776471, 0.776471, 0.776471, 1)
-HeaderSmall/font_sizes/font_size = 56
-Label/constants/line_spacing = -20
-Label/constants/outline_size = -20
