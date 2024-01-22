@@ -33,3 +33,7 @@ func query(components: Array[String]) -> Array[Entity]:
 		return entities_by_component[a].size < entities_by_component[b].size
 	)
 	return results
+
+func generate_entity() -> void:
+	var entity := Entity.new()
+	

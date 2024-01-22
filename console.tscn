@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtqss7du83r7m"]
+
+[ext_resource type="Script" path="res://console.gd" id="1_kon62"]
+
+[node name="Console" type="CanvasLayer"]
+script = ExtResource("1_kon62")
+
+[node name="ConsolePanel" type="PanelContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 698.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="ConsoleArea" type="VBoxContainer" parent="ConsolePanel"]
+layout_mode = 2
+
+[node name="InputContainer" type="HBoxContainer" parent="ConsolePanel/ConsoleArea"]
+layout_mode = 2
+
+[node name="InputLabel" type="Label" parent="ConsolePanel/ConsoleArea/InputContainer"]
+layout_mode = 2
+text = " :: "
+
+[node name="ConsoleInput" type="LineEdit" parent="ConsolePanel/ConsoleArea/InputContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="LogScroller" type="ScrollContainer" parent="ConsolePanel/ConsoleArea"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+vertical_scroll_mode = 2
+
+[node name="Log" type="VBoxContainer" parent="ConsolePanel/ConsoleArea/LogScroller"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="Output" type="Label" parent="ConsolePanel/ConsoleArea/LogScroller/Log"]
+layout_mode = 2
+text = "Welcome to Godot 7DRL Starter
+"
+autowrap_mode = 2

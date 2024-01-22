@@ -5,20 +5,24 @@ var target_ratio := 16.0/9.0
 @onready var window: Window = get_tree().get_root().get_window()
 var screen_size := DisplayServer.screen_get_size()
 
-var MainMenu = preload("res://main_menu.tscn")
+var MainMenu := preload("res://main_menu.tscn")
+var Console := preload("res://console.tscn")
+var console: Console
 
 func _ready() -> void:
 	last_window_size = window.size
 	load_window_settings()
 	var current_scene := MainMenu.instantiate()
-	var menu := current_scene.get_node("MainMenu")
-	menu.position.y = -1080.0
+	#var menu := current_scene.get_node("MainMenu")
+	self.position.y = -1080.0
 	get_tree().create_tween()\
-		.tween_property(menu, "position", Vector2(0, 0), 0.5)\
+		.tween_property(self, "position", Vector2(0, 0), 0.5)\
 		.set_trans(Tween.TRANS_SINE)
-	add_child(current_scene)	
+	add_child(current_scene)
+	console = Console.instantiate()
+	add_child(console)
 
-func _notification(what) -> void:
+func _notification(what: int) -> void:
 	# when closing
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		save_window_settings() 
@@ -48,3 +52,11 @@ func save_window_settings() -> void:
 	ws.window_mode = DisplayServer.window_get_mode()
 	ResourceSaver.save(ws, "user://windowdata.tres")
 
+func start_new_game() -> void:
+	self.console.log("new game now")
+	
+func start_options() -> void:
+	self.console.log("open options")
+
+func start_load_game() -> void:
+	self.console.log("load game")
