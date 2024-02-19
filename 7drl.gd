@@ -30,6 +30,8 @@ func _notification(what: int) -> void:
 		quit()
 
 func load_window_settings() -> void:
+	if !ResourceLoader.exists("user://windowdata.tres"):
+		return
 	var ws: WindowResource = ResourceLoader.load("user://windowdata.tres")
 	if ws != null:
 		print("loading window data", ws.position, ws.size)

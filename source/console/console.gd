@@ -10,6 +10,7 @@ var hidden := true
 
 var command_help: Dictionary = {}
 var command_call: Dictionary = {}
+var command_usage: Dictionary = {}
 
 const ANIM_TIME = 0.2
 
@@ -34,8 +35,10 @@ func log(line: String, small: bool = false) -> void:
 
 func cmd_help(cmd: String = "") -> String:
 	var output: Array[String] = []
-	for key: String in command_help:
-		if !cmd or cmd == key:
+	if cmd != "" and command_help.has(cmd):
+		output.append("%s:\n%s\nUsage: %s" % [cmd, command_help[cmd], command_usage[cmd]])
+	else:
+		for key: String in command_help:
 			output.append("%s: %s" % [key, command_help[key]])
 	return "\n".join(output)
 	
@@ -116,3 +119,4 @@ func toggle_show(animate: bool = true) -> void:
 func add_command(cmd: String, callback: Callable, help: String, usage: String) -> void:
 	command_help[cmd] = help
 	command_call[cmd] = callback
+	command_usage[cmd] = usage
