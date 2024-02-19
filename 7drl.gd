@@ -5,8 +5,8 @@ var target_ratio := 16.0/9.0
 @onready var window: Window = get_tree().get_root().get_window()
 var screen_size := DisplayServer.screen_get_size()
 
-@export var MainMenu: PackedScene
-@export var Console: PackedScene
+@export var MainMenuScene: PackedScene
+@export var ConsoleScene: PackedScene
 var console: Console
 
 func _ready() -> void:
@@ -14,14 +14,14 @@ func _ready() -> void:
 	print ("OS: %s" % [OS.get_name()])
 	if OS.get_name() != "Web":
 		load_window_settings()
-	var current_scene := MainMenu.instantiate()
+	var current_scene := MainMenuScene.instantiate()
 	#var menu := current_scene.get_node("MainMenu")
 	self.position.y = -1080.0
 	get_tree().create_tween()\
 		.tween_property(self, "position", Vector2(0, 0), 0.5)\
 		.set_trans(Tween.TRANS_SINE)
 	add_child(current_scene)
-	console = Console.instantiate()
+	console = ConsoleScene.instantiate()
 	add_child(console)
 
 func _notification(what: int) -> void:

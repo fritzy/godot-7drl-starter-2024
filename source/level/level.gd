@@ -7,7 +7,6 @@ var entities_by_map: Dictionary = {
 }
 
 func _ready() -> void:
-	print("instance id", get_instance_id())
 	generate()
 
 func generate() -> void:
@@ -36,11 +35,11 @@ func make_tile(tile_position: Vector2i, tile_offset: Vector2i) -> void:
 	})])
 
 func save() -> void:
-	world.save()
+	world.save("user://savedgame.res")
 
 func load() -> void:
 	world.clear()
-	world.load()
+	world.load("user://savedgame.res")
 
 func _set_ctile(ctile: CTile) -> void:
 	self.entities_by_map[ctile.layer]["%dx%d" % [ctile.position.x, ctile.position.y]] = ctile.entity

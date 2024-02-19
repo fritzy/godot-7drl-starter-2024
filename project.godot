@@ -15,10 +15,6 @@ run/main_scene="res://7drl.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-World="res://source/ecs/world.gd"
-
 [debug]
 
 gdscript/warnings/untyped_declaration=1

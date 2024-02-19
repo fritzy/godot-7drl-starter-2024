@@ -52,7 +52,7 @@ func _on_consoleinput_submitted(new_text: String) -> void:
 		"print":
 			self.log(" ".join(args.slice(1)))
 	if command_call.has(args[0]):
-		var output = command_call[args[0]].callv(args.slice(1))
+		var output: Variant = command_call[args[0]].callv(args.slice(1))
 		if output == null:
 			output = ""
 		self.log(output)
@@ -99,7 +99,7 @@ func _input(event: InputEvent) -> void:
 		toggle_show()
 
 func toggle_show(animate: bool = true) -> void:
-	var anim_time = ANIM_TIME if animate else 0.0
+	var anim_time := ANIM_TIME if animate else 0.0
 	if hidden:
 		get_tree().create_tween()\
 		.tween_property(ConsolePanel, "position", Vector2(0, 0), anim_time)\

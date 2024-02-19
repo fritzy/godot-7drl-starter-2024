@@ -67,21 +67,23 @@ func clear() -> void:
 		entity.remove()
 	entities_by_id.clear()
 
-	
 func _unindex_entity(entity: Entity) -> void:
 	entities_by_id.erase(entity.id)
 
-func save() -> void:
-	var saved = SavedGame.new()
-	for entity in entities_by_id.values():
-		for ctype in entity.types:
-			for component in entity.types[ctype]:
+func save(path: String) -> void:
+	var saved := SavedGame.new()
+	for entity: Entity in entities_by_id.values():
+		for ctype: String in entity.types:
+			for component: Component in entity.types[ctype]:
 				if component.saveable:
 					saved.components.append(component)
-	ResourceSaver.save(saved, "user://savedgame.tres")
+	ResourceSaver.save(saved, path)
 
-func load() -> void:
-	var saved: SavedGame = ResourceLoader.load("user://savedgame.tres")
+func load(path: String) -> bool:
+	if !ResourceLoader.exists(path):
+		return false
+	var saved: SavedGame = ResourceLoader.load(path)
 	for comp: Component in saved.components:
 		var entity := get_entity(comp.entity_id)
 		entity.add_component(comp)
+	return true

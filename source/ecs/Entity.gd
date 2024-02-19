@@ -28,7 +28,7 @@ func add_component(component: Component) -> void:
 func remove_component(component: Component) -> void:
 	var cname := component.get_class()
 	var cidx: int = types[cname].find(component)
-	var comp = types[cname].pop_at(cidx)
+	var comp := types[cname].pop_at(cidx) as Component
 	if comp.index:
 		index.erase(component.index)
 	comp.remove()
@@ -43,7 +43,7 @@ func remove() -> void:
 	
 func clear_components() -> void:
 	for type: String in types:
-		for comp in types[type]:
+		for comp: Component in types[type]:
 			remove_component(comp)
 	
 
