@@ -1,8 +1,15 @@
 extends Node2D
+class_name Level
+
+@onready var world: World = get_node("World")
+var entities_by_map: Dictionary = {
+	0: {}
+}
 
 func _ready() -> void:
 	print("instance id", get_instance_id())
 	make_square_room(Rect2i(0, 0, 10, 10))
+	make_square_room(Rect2i(12, 1, 5, 5))
 	
 func make_square_room(rect: Rect2i) -> void:
 	for x in range(rect.position.x, rect.end.x + 1):
@@ -13,12 +20,18 @@ func make_square_room(rect: Rect2i) -> void:
 			else:
 				make_tile(Vector2i(x, y), Vector2i(3, 0))
 
-func make_tile(position: Vector2i, tile_offset: Vector2i):
-	var entity := Entity.new()
-	var tile: CTile = CTile.new()
-	tile.position = position
-	tile.sheet_offset = tile_offset
+func make_tile(tile_position: Vector2i, tile_offset: Vector2i):
+	var entity := world.get_entity()
+	world.new_entity([CTile.new({
+		&"position": tile_position,
+		&"sheet_offset": tile_offset
+	})])
+	#tile.position = position
+	#entity.add_component(tile)
+	#return tile
 
-	add_child(entity)
-	entity.add_component(tile)
-	return tile
+func _set_ctile(ctile: CTile) -> void:
+	self.entities_by_map[ctile.layer]["%dx%d" % [ctile.position.x, ctile.position.y]] = ctile.entity
+
+func _clear_ctile(ctile: CTile) ->void:
+	self.entities_by_map[ctile.layer].delete("%dx%d" % [ctile.position.x, ctile.position.y])

@@ -1,11 +1,20 @@
 extends Resource
 class_name Component
 
-var entity_id: int
-var parent: Entity
+@export var entity_id: String
+@export var index: StringName
+var entity: Entity
+static var saveable: bool = true
 
-func _postload() -> void:
-	parent = instance_from_id(entity_id)
+func _init(values: Dictionary = {}) -> void:
+	for key in values:
+		self[key] = values[key]
+
+func _postload(world: World) -> void:
+	entity = world.get_entity(entity_id)
 
 func _presave() -> void:
+	pass
+
+func remove() -> void:
 	pass

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bsvm222oiic07"]
+[gd_scene load_steps=5 format=3 uid="uid://bsvm222oiic07"]
 
 [ext_resource type="Script" path="res://7drl.gd" id="1_an3pt"]
 [ext_resource type="Script" path="res://Level.gd" id="1_knnyp"]
+[ext_resource type="Script" path="res://scripts/ecs/World.gd" id="3_m2fou"]
 [ext_resource type="TileSet" uid="uid://dq56aioop07e2" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="4_xsbwm"]
 
 [node name="7DRL" type="Node2D"]
@@ -10,9 +11,11 @@ script = ExtResource("1_an3pt")
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("1_knnyp")
 
+[node name="World" type="Node2D" parent="Level"]
+script = ExtResource("3_m2fou")
+
 [node name="LevelTileMap" type="TileMap" parent="Level"]
 unique_name_in_owner = true
-scale = Vector2(4, 4)
 tile_set = ExtResource("4_xsbwm")
 format = 2
 
