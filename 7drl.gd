@@ -5,13 +5,15 @@ var target_ratio := 16.0/9.0
 @onready var window: Window = get_tree().get_root().get_window()
 var screen_size := DisplayServer.screen_get_size()
 
-var MainMenu := preload("res://main_menu.tscn")
-var Console := preload("res://console.tscn")
+@export var MainMenu: PackedScene
+@export var Console: PackedScene
 var console: Console
 
 func _ready() -> void:
 	last_window_size = window.size
-	load_window_settings()
+	print ("OS: %s" % [OS.get_name()])
+	if OS.get_name() != "Web":
+		load_window_settings()
 	var current_scene := MainMenu.instantiate()
 	#var menu := current_scene.get_node("MainMenu")
 	self.position.y = -1080.0
@@ -53,13 +55,18 @@ func save_window_settings() -> void:
 
 func start_new_game() -> void:
 	self.console.log("new game now")
+	$Level.reset()
 	
 func start_options() -> void:
 	self.console.log("open options")
 
 func start_load_game() -> void:
 	self.console.log("load game")
+	$Level.load()
 
 func quit() -> void:
 	save_window_settings() 
 	get_tree().quit() # default behavior
+	
+func save() -> void:
+	$Level.save()

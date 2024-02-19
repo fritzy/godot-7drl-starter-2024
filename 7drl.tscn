@@ -1,12 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsvm222oiic07"]
+[gd_scene load_steps=7 format=3 uid="uid://bsvm222oiic07"]
 
 [ext_resource type="Script" path="res://7drl.gd" id="1_an3pt"]
-[ext_resource type="Script" path="res://Level.gd" id="1_knnyp"]
-[ext_resource type="Script" path="res://scripts/ecs/World.gd" id="3_m2fou"]
+[ext_resource type="Script" path="res://source/level/level.gd" id="1_knnyp"]
+[ext_resource type="PackedScene" uid="uid://pboagnvewk20" path="res://source/menus/mainmenu/main_menu.tscn" id="2_ei2b8"]
+[ext_resource type="PackedScene" uid="uid://dtqss7du83r7m" path="res://source/console/console.tscn" id="2_mceva"]
+[ext_resource type="Script" path="res://source/ecs/world.gd" id="3_m2fou"]
 [ext_resource type="TileSet" uid="uid://dq56aioop07e2" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="4_xsbwm"]
 
 [node name="7DRL" type="Node2D"]
 script = ExtResource("1_an3pt")
+MainMenu = ExtResource("2_ei2b8")
+Console = ExtResource("2_mceva")
 
 [node name="Level" type="Node2D" parent="."]
 script = ExtResource("1_knnyp")

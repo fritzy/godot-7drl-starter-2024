@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtqss7du83r7m"]
 
-[ext_resource type="Script" path="res://console.gd" id="1_kon62"]
+[ext_resource type="Script" path="res://source/console/console.gd" id="1_nkft6"]
 
 [node name="Console" type="CanvasLayer"]
-script = ExtResource("1_kon62")
+script = ExtResource("1_nkft6")
 
 [node name="ConsolePanel" type="PanelContainer" parent="."]
 anchors_preset = 10

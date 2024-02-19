@@ -10,7 +10,6 @@ var map: TileMap
 func _postload(world: World) -> void:
 	super(world)
 	map = world.level.get_node("%LevelTileMap")
-	print ("setting tile ", position)
 	map.set_cell(0, position, 0, sheet_offset)
 	world.level._set_ctile(self)
 

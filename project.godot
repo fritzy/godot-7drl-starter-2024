@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-World="res://scripts/ecs/World.gd"
+World="res://source/ecs/world.gd"
 
 [debug]
 

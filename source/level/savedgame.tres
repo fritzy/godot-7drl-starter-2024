@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SavedGame" load_steps=2 format=3 uid="uid://7ckd3dosofvc"]
+
+[ext_resource type="Script" path="res://source/level/savedgame.gd" id="2_5buuf"]
+
+[resource]
+script = ExtResource("2_5buuf")
+components = Array[Resource("res://source/ecs/Component.gd")]([])

@@ -11,15 +11,17 @@ func _ready() -> void:
 	NewGameButton.pressed.connect(self._newgamebutton_pressed)
 	OptionsButton.pressed.connect(self._optionsbutton_pressed)
 	LoadGameButton.pressed.connect(self._loadgamebutton_pressed)
+	if OS.get_name() == "Web":
+		QuitButton.hide()
 
-func _quitbutton_pressed():
+func _quitbutton_pressed() -> void:
 	Game.quit()
 
-func _newgamebutton_pressed():
+func _newgamebutton_pressed() -> void:
 	Game.start_new_game()
 
-func _optionsbutton_pressed():
+func _optionsbutton_pressed() -> void:
 	Game.start_options()
 
-func _loadgamebutton_pressed():
+func _loadgamebutton_pressed() -> void:
 	Game.start_load_game()

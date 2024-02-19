@@ -9,13 +9,14 @@ signal turn_end
 
 var entities_by_component: Dictionary = {}
 var entities_by_id: Dictionary = {}
-@onready var level = get_parent()
-var next_id = 0;
+@onready var level := get_parent()
+var next_id: int = 0;
 
 func _ready() -> void:
 	print("World...")
 	
 func add_component(component: Component, entity: Entity) -> void:
+	print("noooo")
 	if !entities_by_component.has(component.classname):
 		var entities: Array[Entity] = []
 		entities_by_component[component.classname] = entities
@@ -43,7 +44,8 @@ func get_free_id() -> String:
 func get_entity(id: String = "") -> Entity:
 	var entity: Entity
 	if id == "":
-		entity = Entity.new()
+		id = get_free_id()
+		entity = Entity.new(id)
 		entities_by_id[entity.id] = entity
 		level.add_child(entity)
 	elif !entities_by_id.has(id):
@@ -52,7 +54,6 @@ func get_entity(id: String = "") -> Entity:
 		level.add_child(entity)
 	else:
 		entity = entities_by_id[id]
-
 	return entity
 
 func new_entity(components: Array[Component]) -> Entity:
@@ -60,6 +61,27 @@ func new_entity(components: Array[Component]) -> Entity:
 	for component: Component in components:
 		entity.add_component(component)
 	return entity
+
+func clear() -> void:
+	for entity: Entity in entities_by_id.values():
+		entity.remove()
+	entities_by_id.clear()
+
 	
+func _unindex_entity(entity: Entity) -> void:
+	entities_by_id.erase(entity.id)
+
 func save() -> void:
-	pass
+	var saved = SavedGame.new()
+	for entity in entities_by_id.values():
+		for ctype in entity.types:
+			for component in entity.types[ctype]:
+				if component.saveable:
+					saved.components.append(component)
+	ResourceSaver.save(saved, "user://savedgame.tres")
+
+func load() -> void:
+	var saved: SavedGame = ResourceLoader.load("user://savedgame.tres")
+	for comp: Component in saved.components:
+		var entity := get_entity(comp.entity_id)
+		entity.add_component(comp)

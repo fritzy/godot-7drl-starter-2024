@@ -7,7 +7,7 @@ var entity: Entity
 static var saveable: bool = true
 
 func _init(values: Dictionary = {}) -> void:
-	for key in values:
+	for key: StringName in values:
 		self[key] = values[key]
 
 func _postload(world: World) -> void:

@@ -19,6 +19,7 @@ func _ready() -> void:
 	add_command("help", cmd_help, "List commands or specific command", "help [cmd]")
 	add_command("start_game", Game.start_new_game, "Start a new game", "")
 	add_command("quit", Game.quit, "Quit", "<>")
+	add_command("save", Game.save, "Save", "")
 
 func log(line: String, small: bool = false) -> void:
 	var label := Label.new()
@@ -29,12 +30,13 @@ func log(line: String, small: bool = false) -> void:
 	await get_tree().process_frame
 	#await get_tree().create_timer(0.25).timeout
 	var sc := %LogScroller as ScrollContainer
-	sc.scroll_vertical = sc.get_v_scroll_bar().max_value
+	sc.scroll_vertical = sc.get_v_scroll_bar().max_value as int
 
 func cmd_help(cmd: String = "") -> String:
 	var output: Array[String] = []
 	for key: String in command_help:
-		output.append("%s: %s" % [key, command_help[key]])
+		if !cmd or cmd == key:
+			output.append("%s: %s" % [key, command_help[key]])
 	return "\n".join(output)
 	
 func _on_consoleinput_submitted(new_text: String) -> void:
@@ -55,14 +57,14 @@ func _on_consoleinput_submitted(new_text: String) -> void:
 			output = ""
 		self.log(output)
 
-func parse_words(input) -> Array:
+func parse_words(input: String) -> Array:
 	var output := []
 	var word: String
 	var state_quote := false
-	for char: String in input:
-		print ("checking ", char)
+	for chara: String in input:
+		print ("checking ", chara)
 		var end_word := false
-		match char:
+		match chara:
 			"\"":
 				if (state_quote):
 					state_quote = false
@@ -74,7 +76,7 @@ func parse_words(input) -> Array:
 				if !state_quote:
 					end_word = true
 				else:
-					word = word + char
+					word = word + chara
 			var other_char:
 				word = word + other_char
 				print("added char ", other_char, word)

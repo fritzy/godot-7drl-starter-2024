@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CSprite" load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/ecs/components/CSprite.gd" id="1_l8bk0"]
-[ext_resource type="TileSet" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="2_ogb8m"]
+[ext_resource type="Script" path="res://source/ecs/components/CSprite.gd" id="1_l8bk0"]
+[ext_resource type="TileSet" uid="uid://dq56aioop07e2" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="2_ogb8m"]
 
 [resource]
 script = ExtResource("1_l8bk0")
