@@ -21,16 +21,22 @@ func _ready() -> void:
 	add_command("start_game", Game.start_new_game, "Start a new game", "")
 	add_command("quit", Game.quit, "Quit", "<>")
 	add_command("save", Game.save, "Save", "")
+	add_command("clear", cmd_clear, "Clear logs", "")
+	add_command("size", cmd_size, "Set Window Size", "")
+	add_command("fullscreen", cmd_fullscreen, "Toggle Fullscreen", "")
+	add_command("fps", cmd_fps, "Show FPS", "")
 
 func log(line: String, small: bool = true) -> void:
-	var label := Label.new()
+	var label := RichTextLabel.new()
 	label.text = line
+	label.scroll_active = false
+	label.fit_content = true
+	label.bbcode_enabled = true
 	if small:
-		print ("print small")
-		label.set_theme_type_variation(&"LabelSmall")
-		print(label.theme_type_variation)
+		label.set_theme_type_variation(&"RichTextLabelSmall")
 	var sc := %LogScroller as ScrollContainer
 	Log.add_child(label)
+	print("log: %s" % line)
 	await get_tree().process_frame
 	await get_tree().create_timer(0.25).timeout
 	sc.ensure_control_visible(label)
@@ -44,14 +50,44 @@ func cmd_help(cmd: String = "") -> String:
 		for key: String in command_help:
 			output.append("%s: %s" % [key, command_help[key]])
 	return "\n".join(output)
+
+func cmd_clear() -> String:
+	for child in %Log.get_children():
+		%Log.remove_child(child)
+		child.queue_free()
+	return ""
+
+func cmd_size(sizeArg: String = "") -> String:
+	var newSize: Vector2i = Game.project_window_size
+	var scale: float = 1
+	if sizeArg != "":
+		var sizes := sizeArg.split("x")
+		if (sizes.size() == 1):
+			scale = sizes[0] as float
+			newSize = Game.project_window_size * scale
+		elif (sizes.size() == 2):
+			newSize = Vector2i(max(int(sizes[0]), Game.project_window_size.x), max(int(sizes[1]), Game.project_window_size.y))
+		else:
+			newSize = Game.project_window_size.clone()
+	Game.window.size = newSize
+	return "Setting Window Size %s Scale %.2f" % [newSize, scale]
+
+func cmd_fullscreen() -> String:
+	var mode: Window.Mode = Game.window.get_mode()
+	if (mode != Window.Mode.MODE_WINDOWED):
+		Game.window.set_mode(Game.window.MODE_WINDOWED)
+		cmd_size()
+	else:
+		Game.window.set_mode(Game.window.MODE_EXCLUSIVE_FULLSCREEN)
+	return "toggled fullscreen"
+
+func cmd_fps() -> String:
+	return "fps: %d %d" % [Engine.get_frames_per_second(), DisplayServer.screen_get_refresh_rate()]
 	
 func _on_consoleinput_submitted(new_text: String) -> void:
 	if new_text == "":
 		return
 	var args: Array = parse_words(new_text)
-	print(new_text, args)
-	print(command_call)
-	print(command_call.has(args[0]))
 	ConsoleInput.clear()
 	self.log(":: " + new_text, true)
 	if args[0] == "print":
@@ -68,11 +104,21 @@ func parse_words(input: String) -> Array:
 	var output := []
 	var word: String
 	var state_quote := false
+	var escaping := false
 	for chara: String in input:
 		var end_word := false
 		match chara:
+			"\\":
+				if escaping:
+					word = word + "\\"
+					escaping = false
+				else:
+					escaping = true
 			"\"":
-				if (state_quote):
+				if escaping:
+					word = word + "\""
+					escaping = false
+				elif (state_quote):
 					state_quote = false
 					end_word = true
 				else:
@@ -83,8 +129,10 @@ func parse_words(input: String) -> Array:
 					end_word = true
 				else:
 					word = word + chara
+				escaping = false
 			var other_char:
 				word = word + other_char
+				escaping = false
 		if end_word:
 			end_word = false
 			word.strip_edges()

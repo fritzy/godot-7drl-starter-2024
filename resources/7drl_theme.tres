@@ -1,55 +1,22 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dsnn4faync3h2"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dsnn4faync3h2"]
 
-[ext_resource type="Texture2D" uid="uid://b4a22glewpjch" path="res://resources/kenney_fantasy-ui-borders/PNG/Default/Border/panel-border-002.png" id="2_51gtu"]
-[ext_resource type="FontFile" uid="uid://b2d8v4buc711r" path="res://resources/PeaberryMono.ttf" id="5_qmjij"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_smf5s"]
-texture = ExtResource("2_51gtu")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_right = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_js2ya"]
-texture = ExtResource("2_51gtu")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_right = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ewx2"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pt1it"]
-texture = ExtResource("2_51gtu")
-texture_margin_left = 12.0
-texture_margin_top = 12.0
-texture_margin_right = 12.0
-texture_margin_bottom = 12.0
-expand_margin_left = 8.0
-expand_margin_top = 8.0
-expand_margin_right = 8.0
-expand_margin_bottom = 8.0
+[ext_resource type="FontFile" uid="uid://t0q8p0q8iejo" path="res://resources/PxPlus_ToshibaSat_8x14.ttf" id="2_8863h"]
 
 [resource]
-default_font = ExtResource("5_qmjij")
-default_font_size = 24
+default_font = ExtResource("2_8863h")
+default_font_size = 28
 BigButton/base_type = &"Button"
 BigButton/font_sizes/font_size = 36
-Button/styles/focus = SubResource("StyleBoxTexture_smf5s")
-Button/styles/hover = SubResource("StyleBoxTexture_js2ya")
-Button/styles/normal = SubResource("StyleBoxEmpty_2ewx2")
-Button/styles/pressed = SubResource("StyleBoxTexture_pt1it")
+Button/constants/outline_size = 0
 HeaderLarge/base_type = &"Header"
 HeaderLarge/font_sizes/font_size = 48
 HeaderSmall/base_type = &"Label"
 HeaderSmall/colors/font_color = Color(0.776471, 0.776471, 0.776471, 1)
 LabelSmall/base_type = &"Label"
-LabelSmall/font_sizes/font_size = 16
+LabelSmall/font_sizes/font_size = 14
+RichTextLabelSmall/base_type = &"RichTextLabel"
+RichTextLabelSmall/font_sizes/bold_font_size = 14
+RichTextLabelSmall/font_sizes/bold_italics_font_size = 14
+RichTextLabelSmall/font_sizes/italics_font_size = 14
+RichTextLabelSmall/font_sizes/mono_font_size = 14
+RichTextLabelSmall/font_sizes/normal_font_size = 14

@@ -4,13 +4,16 @@ var last_window_size: Vector2i
 var target_ratio := 16.0/9.0
 @onready var window: Window = get_tree().get_root().get_window()
 var screen_size := DisplayServer.screen_get_size()
+var project_window_size: Vector2i
 
 @export var MainMenuScene: PackedScene
 @export var ConsoleScene: PackedScene
 var console: Console
 
 func _ready() -> void:
+	project_window_size = Vector2i(ProjectSettings.get("display/window/size/viewport_width") as int, ProjectSettings.get("display/window/size/viewport_height") as int)
 	last_window_size = window.size
+	Engine.max_fps = DisplayServer.screen_get_refresh_rate()
 	print ("OS: %s" % [OS.get_name()])
 	if OS.get_name() != "Web":
 		load_window_settings()
