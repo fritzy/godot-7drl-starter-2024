@@ -22,16 +22,19 @@ func _ready() -> void:
 	add_command("quit", Game.quit, "Quit", "<>")
 	add_command("save", Game.save, "Save", "")
 
-func log(line: String, small: bool = false) -> void:
+func log(line: String, small: bool = true) -> void:
 	var label := Label.new()
 	label.text = line
 	if small:
-		label.theme_type_variation = "HeaderSmall"
+		print ("print small")
+		label.set_theme_type_variation(&"LabelSmall")
+		print(label.theme_type_variation)
+	var sc := %LogScroller as ScrollContainer
 	Log.add_child(label)
 	await get_tree().process_frame
-	#await get_tree().create_timer(0.25).timeout
-	var sc := %LogScroller as ScrollContainer
-	sc.scroll_vertical = sc.get_v_scroll_bar().max_value as int
+	await get_tree().create_timer(0.25).timeout
+	sc.ensure_control_visible(label)
+	#sc.scroll_vertical = sc.get_v_scroll_bar().max_value as int
 
 func cmd_help(cmd: String = "") -> String:
 	var output: Array[String] = []
@@ -51,21 +54,21 @@ func _on_consoleinput_submitted(new_text: String) -> void:
 	print(command_call.has(args[0]))
 	ConsoleInput.clear()
 	self.log(":: " + new_text, true)
-	match args[0]:
-		"print":
-			self.log(" ".join(args.slice(1)))
-	if command_call.has(args[0]):
+	if args[0] == "print":
+		self.log(" ".join(args.slice(1)))
+	elif command_call.has(args[0]):
 		var output: Variant = command_call[args[0]].callv(args.slice(1))
 		if output == null:
 			output = ""
 		self.log(output)
+	else:
+		self.log("command not found: %s" % args[0])
 
 func parse_words(input: String) -> Array:
 	var output := []
 	var word: String
 	var state_quote := false
 	for chara: String in input:
-		print ("checking ", chara)
 		var end_word := false
 		match chara:
 			"\"":
@@ -82,7 +85,6 @@ func parse_words(input: String) -> Array:
 					word = word + chara
 			var other_char:
 				word = word + other_char
-				print("added char ", other_char, word)
 		if end_word:
 			end_word = false
 			word.strip_edges()
@@ -103,18 +105,25 @@ func _input(event: InputEvent) -> void:
 
 func toggle_show(animate: bool = true) -> void:
 	var anim_time := ANIM_TIME if animate else 0.0
+	var slide := create_tween()
 	if hidden:
-		get_tree().create_tween()\
-		.tween_property(ConsolePanel, "position", Vector2(0, 0), anim_time)\
+		slide.tween_property(ConsolePanel, "position", Vector2(0, 0), anim_time)\
 		.set_trans(Tween.TRANS_SINE)
 		ConsoleInput.grab_focus()
 		hidden = false
+		# immediately visible when animating to show
+		visible = true
 	else:
-		get_tree().create_tween()\
-		.tween_property(ConsolePanel, "position", Vector2(0, -ConsolePanel.size.y), anim_time)\
+		slide.tween_property(ConsolePanel, "position", Vector2(0, -ConsolePanel.size.y), anim_time)\
 		.set_trans(Tween.TRANS_SINE)
 		ConsoleInput.release_focus()
 		hidden = true
+		# wait for it to slide off screen before setting invisible
+		await slide.finished
+		# hidden might have changed by now if they're toggling quickly
+		# so don't set specifically to false
+		visible = !hidden 
+
 
 func add_command(cmd: String, callback: Callable, help: String, usage: String) -> void:
 	command_help[cmd] = help

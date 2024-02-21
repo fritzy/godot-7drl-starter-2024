@@ -1,15 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://dtqss7du83r7m"]
+[gd_scene load_steps=4 format=3 uid="uid://dtqss7du83r7m"]
 
-[ext_resource type="Script" path="res://source/console/console.gd" id="1_nkft6"]
+[ext_resource type="Script" path="res://source/ui/console/console.gd" id="1_nkft6"]
+[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="2_4e2y3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fy17a"]
+resource_local_to_scene = true
+shader = ExtResource("2_4e2y3")
+shader_parameter/blur = 1.0
+shader_parameter/brightness = 0.3
 
 [node name="Console" type="CanvasLayer"]
 script = ExtResource("1_nkft6")
 
 [node name="ConsolePanel" type="PanelContainer" parent="."]
-anchors_preset = 10
+material = SubResource("ShaderMaterial_fy17a")
+anchors_preset = 15
 anchor_right = 1.0
-offset_bottom = 698.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
@@ -17,22 +26,25 @@ size_flags_vertical = 2
 layout_mode = 2
 
 [node name="InputContainer" type="HBoxContainer" parent="ConsolePanel/ConsoleArea"]
+custom_minimum_size = Vector2(0, 37)
 layout_mode = 2
+size_flags_vertical = 0
 
 [node name="InputLabel" type="Label" parent="ConsolePanel/ConsoleArea/InputContainer"]
 layout_mode = 2
 text = " :: "
 
 [node name="ConsoleInput" type="LineEdit" parent="ConsolePanel/ConsoleArea/InputContainer"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 0
+caret_blink = true
+caret_blink_interval = 0.4
 
 [node name="LogScroller" type="ScrollContainer" parent="ConsolePanel/ConsoleArea"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-follow_focus = true
 vertical_scroll_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ConsolePanel/ConsoleArea/LogScroller"]

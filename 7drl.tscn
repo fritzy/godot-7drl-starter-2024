@@ -1,11 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsvm222oiic07"]
+[gd_scene load_steps=9 format=3 uid="uid://bsvm222oiic07"]
 
 [ext_resource type="Script" path="res://7drl.gd" id="1_an3pt"]
 [ext_resource type="Script" path="res://source/level/level.gd" id="1_knnyp"]
-[ext_resource type="PackedScene" uid="uid://pboagnvewk20" path="res://source/menus/mainmenu/main_menu.tscn" id="2_ei2b8"]
-[ext_resource type="PackedScene" uid="uid://dtqss7du83r7m" path="res://source/console/console.tscn" id="2_mceva"]
+[ext_resource type="PackedScene" uid="uid://pboagnvewk20" path="res://source/ui/menus/mainmenu/main_menu.tscn" id="2_ei2b8"]
+[ext_resource type="PackedScene" uid="uid://dtqss7du83r7m" path="res://source/ui/console/console.tscn" id="2_mceva"]
 [ext_resource type="Script" path="res://source/ecs/world.gd" id="3_m2fou"]
 [ext_resource type="TileSet" uid="uid://dq56aioop07e2" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="4_xsbwm"]
+[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="7_3jguj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6y820"]
+resource_local_to_scene = true
+shader = ExtResource("7_3jguj")
+shader_parameter/blur = 1.0
+shader_parameter/brightness = 0.6
 
 [node name="7DRL" type="Node2D"]
 script = ExtResource("1_an3pt")
@@ -20,20 +27,29 @@ script = ExtResource("3_m2fou")
 
 [node name="LevelTileMap" type="TileMap" parent="Level"]
 unique_name_in_owner = true
+scale = Vector2(3, 3)
 tile_set = ExtResource("4_xsbwm")
 format = 2
 
 [node name="GameInfo" type="CanvasLayer" parent="."]
 
-[node name="VersionInfo" type="Label" parent="GameInfo"]
+[node name="PanelContainer" type="PanelContainer" parent="GameInfo"]
+material = SubResource("ShaderMaterial_6y820")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 22.0
-offset_top = -53.0
-offset_right = 1286.0
-offset_bottom = 13.0
+offset_top = -32.0
+offset_right = 518.0
 grow_vertical = 0
-theme_type_variation = &"HeaderSmall"
-theme_override_font_sizes/font_size = 36
+
+[node name="MarginContainer" type="MarginContainer" parent="GameInfo/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VersionInfo" type="Label" parent="GameInfo/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_type_variation = &"LabelSmall"
 text = "v0.1 - Nathan Fritz copyright 2024"
