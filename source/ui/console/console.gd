@@ -5,7 +5,6 @@ var hidden := true
 @onready var ConsolePanel := $ConsolePanel
 @onready var ConsoleInput := $ConsolePanel/ConsoleArea/InputContainer/ConsoleInput
 @onready var Log := %Log
-@onready var Output := %Log/Output
 @onready var Game := $"/root/7DRL"
 
 var command_help: Dictionary = {}
@@ -25,22 +24,64 @@ func _ready() -> void:
 	add_command("size", cmd_size, "Set Window Size", "")
 	add_command("fullscreen", cmd_fullscreen, "Toggle Fullscreen", "")
 	add_command("fps", cmd_fps, "Show FPS", "")
+	add_command("showpanel", cmd_showpanel, "Show a Panel or Menu", "showpanel <panel_name>")
+	add_command("hidepanel", cmd_hidepanel, "Show a Panel or Menu", "hidepanel <panel_name>")
+	add_command("setblur", cmd_setblur, "", "")
 
-func log(line: String, small: bool = true) -> void:
+func cmd_setblur(amount: String) -> String:
+	var blur := float(amount)
+	var panel := PanelManager.scenes[&"MainMenu"].get_node("CenterContainer/PanelContainer") as PanelContainer
+	var out = panel.material.get_shader_parameter("blur")
+	panel.material.set_shader_parameter("blur", blur)
+	print(out)
+	return "Setting blur %f -> %f" % [out, blur]
+
+func log(line: String, show_alert: bool = true) -> void:
 	var label := RichTextLabel.new()
 	label.text = line
 	label.scroll_active = false
 	label.fit_content = true
 	label.bbcode_enabled = true
-	if small:
-		label.set_theme_type_variation(&"RichTextLabelSmall")
+	label.fit_content = true
+	label.scroll_active = false
+	#if small:
+	label.set_theme_type_variation(&"RichTextLabelSmall")
 	var sc := %LogScroller as ScrollContainer
 	Log.add_child(label)
 	print("log: %s" % line)
+	if show_alert:
+		var alert = ConsoleAlert.new(line, 5.0)
+		Game.alerts.add_child(alert)
+		Game.alerts.move_child(alert, 0)
+		alert.timedout.connect(_alert_timedout)
 	await get_tree().process_frame
 	await get_tree().create_timer(0.25).timeout
 	sc.ensure_control_visible(label)
 	#sc.scroll_vertical = sc.get_v_scroll_bar().max_value as int
+
+func _alert_timedout(alert: ConsoleAlert) -> void:
+	print("timed out %s" % alert._text)
+	var h := alert.size.y
+	var idx := alert.get_index()
+	var control := Control.new()
+	control.set_custom_minimum_size(Vector2(0, h))
+	Game.alerts.remove_child(alert)
+	alert.queue_free()
+	Game.alerts.add_child(control)
+	Game.alerts.move_child(control, idx)
+	var shrink := get_tree().create_tween()
+	shrink.tween_method(control.set_custom_minimum_size, Vector2(0, h), Vector2(0, 0), .2)
+	await shrink.finished
+	control.queue_free()
+
+func cmd_showpanel(panel_name: StringName) -> String:
+	PanelManager.show_scene(panel_name)
+	return "show panel %s" % panel_name
+
+func cmd_hidepanel(panel_name: StringName) -> String:
+	PanelManager.hide_scene(panel_name)
+	return "hide panel %s" % panel_name
+	
 
 func cmd_help(cmd: String = "") -> String:
 	var output: Array[String] = []
@@ -58,19 +99,8 @@ func cmd_clear() -> String:
 	return ""
 
 func cmd_size(sizeArg: String = "") -> String:
-	var newSize: Vector2i = Game.project_window_size
-	var scale: float = 1
-	if sizeArg != "":
-		var sizes := sizeArg.split("x")
-		if (sizes.size() == 1):
-			scale = sizes[0] as float
-			newSize = Game.project_window_size * scale
-		elif (sizes.size() == 2):
-			newSize = Vector2i(max(int(sizes[0]), Game.project_window_size.x), max(int(sizes[1]), Game.project_window_size.y))
-		else:
-			newSize = Game.project_window_size.clone()
-	Game.window.size = newSize
-	return "Setting Window Size %s Scale %.2f" % [newSize, scale]
+	var results: Array = Game.resize(sizeArg)
+	return "Window Resized %s %0.1fx" % results
 
 func cmd_fullscreen() -> String:
 	var mode: Window.Mode = Game.window.get_mode()
@@ -89,7 +119,7 @@ func _on_consoleinput_submitted(new_text: String) -> void:
 		return
 	var args: Array = parse_words(new_text)
 	ConsoleInput.clear()
-	self.log(":: " + new_text, true)
+	self.log("> " + new_text, false)
 	if args[0] == "print":
 		self.log(" ".join(args.slice(1)))
 	elif command_call.has(args[0]):
@@ -150,6 +180,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	if event.is_action("ui_cancel") and hidden == false:
 		toggle_show()
+		get_viewport().set_input_as_handled()
 
 func toggle_show(animate: bool = true) -> void:
 	var anim_time := ANIM_TIME if animate else 0.0
@@ -171,7 +202,6 @@ func toggle_show(animate: bool = true) -> void:
 		# hidden might have changed by now if they're toggling quickly
 		# so don't set specifically to false
 		visible = !hidden 
-
 
 func add_command(cmd: String, callback: Callable, help: String, usage: String) -> void:
 	command_help[cmd] = help

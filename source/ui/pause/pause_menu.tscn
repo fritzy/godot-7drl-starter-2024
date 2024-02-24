@@ -1,17 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://pboagnvewk20"]
+[gd_scene load_steps=5 format=3 uid="uid://djxhlgdytqpxw"]
 
-[ext_resource type="Script" path="res://source/ui/menus/mainmenu/mainmenu.gd" id="1_gt3we"]
-[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="2_7lvat"]
+[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="1_8yrix"]
+[ext_resource type="Script" path="res://source/ui/pause/pause_menu.gd" id="1_32nlg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x66uh"]
-shader = ExtResource("2_7lvat")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vxjtt"]
+shader = ExtResource("1_8yrix")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_43o0q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1xjwr"]
 resource_local_to_scene = true
-shader = ExtResource("2_7lvat")
+shader = ExtResource("1_8yrix")
 
-[node name="MainMenu" type="CanvasLayer"]
-script = ExtResource("1_gt3we")
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_32nlg")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-material = SubResource("ShaderMaterial_x66uh")
+material = SubResource("ShaderMaterial_vxjtt")
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 
@@ -38,8 +38,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_type_variation = &"HeaderLarge"
-text = "Godot 7DRL Starter 2024"
+text = "Paused"
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
@@ -47,33 +46,33 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="MenuButtons" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
-material = SubResource("ShaderMaterial_43o0q")
+material = SubResource("ShaderMaterial_1xjwr")
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 2
 size_flags_stretch_ratio = 4.0
 
-[node name="NewGameButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
+[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BigButton"
-text = "New Game"
+text = "Resume"
 
-[node name="LoadGameButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
+[node name="SaveButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BigButton"
-text = "Load Game"
-
-[node name="SettingsButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"BigButton"
-text = "Settings"
+text = "Save"
 
 [node name="QuitButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BigButton"
 text = "Quit"
+
+[node name="QuitToDesktopButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/MenuButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BigButton"
+text = "Quit to Desktop"

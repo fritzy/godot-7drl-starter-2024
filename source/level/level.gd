@@ -18,6 +18,13 @@ func generate() -> void:
 func reset() -> void:
 	world.clear()
 	generate()
+	
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		PanelManager.show_scene(&"PauseMenu")
+		print("level escape")
+		get_viewport().set_input_as_handled()
+		get_parent().pause()
 
 func make_square_room(rect: Rect2i) -> void:
 	for x in range(rect.position.x, rect.end.x + 1):

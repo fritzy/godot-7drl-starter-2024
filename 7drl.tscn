@@ -6,20 +6,30 @@
 [ext_resource type="PackedScene" uid="uid://dtqss7du83r7m" path="res://source/ui/console/console.tscn" id="2_mceva"]
 [ext_resource type="Script" path="res://source/ecs/world.gd" id="3_m2fou"]
 [ext_resource type="TileSet" uid="uid://dq56aioop07e2" path="res://resources/kenney_1-bit-pack/Tilesheet/kenny_1_bit_tileset.tres" id="4_xsbwm"]
-[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="7_3jguj"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6y820"]
-resource_local_to_scene = true
-shader = ExtResource("7_3jguj")
-shader_parameter/blur = 1.0
-shader_parameter/brightness = 0.6
+[ext_resource type="PackedScene" uid="uid://d7o6gx3eoiwq" path="res://source/ui/menus/settings/settings.tscn" id="5_4vh4y"]
+[ext_resource type="PackedScene" uid="uid://djxhlgdytqpxw" path="res://source/ui/pause/pause_menu.tscn" id="5_5r5uu"]
 
 [node name="7DRL" type="Node2D"]
 script = ExtResource("1_an3pt")
 MainMenuScene = ExtResource("2_ei2b8")
 ConsoleScene = ExtResource("2_mceva")
+SettingsScene = ExtResource("5_4vh4y")
+PauseScene = ExtResource("5_5r5uu")
+
+[node name="LayerTop" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="LayerMenu" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="LayerLevelUI" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="LayerLevel" type="Node2D" parent="."]
+unique_name_in_owner = true
 
 [node name="Level" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_knnyp")
 
 [node name="World" type="Node2D" parent="Level"]
@@ -34,7 +44,6 @@ format = 2
 [node name="GameInfo" type="CanvasLayer" parent="."]
 
 [node name="PanelContainer" type="PanelContainer" parent="GameInfo"]
-material = SubResource("ShaderMaterial_6y820")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -52,4 +61,15 @@ theme_override_constants/margin_bottom = 4
 [node name="VersionInfo" type="Label" parent="GameInfo/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_type_variation = &"LabelSmall"
-text = "v0.1 - Nathan Fritz copyright 2024"
+text = "v0.1.1 - Nathan Fritz copyright 2024"
+
+[node name="Alerts" type="VBoxContainer" parent="GameInfo"]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 8

@@ -2,3 +2,6 @@
 .godot/
 *.tmp
 build
+build_win
+build_linux
+build_web

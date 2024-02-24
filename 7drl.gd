@@ -6,26 +6,30 @@ var target_ratio := 16.0/9.0
 var screen_size := DisplayServer.screen_get_size()
 var project_window_size: Vector2i
 
+@onready var alerts = %Alerts
+
 @export var MainMenuScene: PackedScene
 @export var ConsoleScene: PackedScene
+@export var SettingsScene: PackedScene
+@export var PauseScene: PackedScene
+#@export var BlurMaterial: Material
+
 var console: Console
 
 func _ready() -> void:
 	project_window_size = Vector2i(ProjectSettings.get("display/window/size/viewport_width") as int, ProjectSettings.get("display/window/size/viewport_height") as int)
 	last_window_size = window.size
-	Engine.max_fps = DisplayServer.screen_get_refresh_rate()
+	Engine.max_fps = DisplayServer.screen_get_refresh_rate() as int
 	print ("OS: %s" % [OS.get_name()])
 	if OS.get_name() != "Web":
 		load_window_settings()
-	var current_scene := MainMenuScene.instantiate()
-	#var menu := current_scene.get_node("MainMenu")
-	self.position.y = -1080.0
-	get_tree().create_tween()\
-		.tween_property(self, "position", Vector2(0, 0), 0.5)\
-		.set_trans(Tween.TRANS_SINE)
-	add_child(current_scene)
 	console = ConsoleScene.instantiate()
 	add_child(console)
+	PanelManager.add_scene_prepack(&"MainMenu", MainMenuScene, %LayerMenu)
+	PanelManager.add_scene_prepack(&"Settings", SettingsScene, %LayerMenu)
+	PanelManager.add_scene_prepack(&"PauseMenu", PauseScene, %LayerMenu)
+	PanelManager.show_scene(&"MainMenu")
+	%Level.set_process_unhandled_input(false)
 
 func _notification(what: int) -> void:
 	# when closing
@@ -60,18 +64,42 @@ func save_window_settings() -> void:
 
 func start_new_game() -> void:
 	self.console.log("new game now")
+	PanelManager.hide_scene(&"MainMenu")
 	$Level.reset()
+	%Level.set_process_unhandled_input(true)
 	
-func start_options() -> void:
-	self.console.log("open options")
+func start_settings() -> void:
+	self.console.log("open settings")
 
 func start_load_game() -> void:
 	self.console.log("load game")
 	$Level.load()
 
 func quit() -> void:
-	save_window_settings() 
-	get_tree().quit() # default behavior
+	if OS.get_name() != "Web":
+		save_window_settings() 
+		get_tree().quit() # default behavior
 	
 func save() -> void:
 	$Level.save()
+
+func pause() -> void:
+	%Level.set_process_unhandled_input(false)
+
+func resume() -> void:
+	%Level.set_process_unhandled_input(true)
+
+func resize(sizeArg: String = "") -> Array:
+	var newSize: Vector2i = project_window_size
+	var win_scale: float = 1
+	if sizeArg != "":
+		var sizes := sizeArg.split("x")
+		if (sizes.size() == 1):
+			win_scale = sizes[0] as float
+			newSize = project_window_size * win_scale
+		elif (sizes.size() == 2):
+			newSize = Vector2i(max(int(sizes[0]), project_window_size.x), max(int(sizes[1]), project_window_size.y))
+		else:
+			newSize = Vector2i(project_window_size)
+	window.size = newSize
+	return [newSize, win_scale]

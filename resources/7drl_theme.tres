@@ -1,13 +1,16 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dsnn4faync3h2"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dsnn4faync3h2"]
 
 [ext_resource type="FontFile" uid="uid://t0q8p0q8iejo" path="res://resources/PxPlus_ToshibaSat_8x14.ttf" id="2_8863h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ad4jh"]
+bg_color = Color(0.0901961, 0.0901961, 0.0901961, 1)
 
 [resource]
 default_font = ExtResource("2_8863h")
 default_font_size = 28
 BigButton/base_type = &"Button"
 BigButton/font_sizes/font_size = 36
-Button/constants/outline_size = 0
+Button/styles/normal = SubResource("StyleBoxFlat_ad4jh")
 HeaderLarge/base_type = &"Header"
 HeaderLarge/font_sizes/font_size = 48
 HeaderSmall/base_type = &"Label"

@@ -1,6 +1,14 @@
-[gd_scene format=3 uid="uid://d7o6gx3eoiwq"]
+[gd_scene load_steps=4 format=3 uid="uid://d7o6gx3eoiwq"]
+
+[ext_resource type="Script" path="res://source/ui/menus/settings/settings.gd" id="1_afq6m"]
+[ext_resource type="Shader" path="res://source/ui/blur.gdshader" id="2_n631o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xkeq5"]
+resource_local_to_scene = true
+shader = ExtResource("2_n631o")
 
 [node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_afq6m")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -11,6 +19,7 @@ grow_vertical = 2
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+material = SubResource("ShaderMaterial_xkeq5")
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
@@ -33,17 +42,68 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="SettingsTabs" type="TabContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+use_hidden_tabs_for_min_size = true
+
+[node name="GamePlay" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay/MarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 6
 columns = 2
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="MusicVolumeLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 100.0
+
+[node name="EffectsVolumeLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Effects Volume"
+
+[node name="EffectsVolumeSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/GamePlay/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+value = 100.0
+
+[node name="Display" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="Fullscreen Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "Fullscreen"
 
-[node name="OptionButton" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="FullScreenButton" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 alignment = 1
 item_count = 3
@@ -55,11 +115,11 @@ popup/item_1/id = 1
 popup/item_2/text = "Fullscreen"
 popup/item_2/id = 2
 
-[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VSyncLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "VSync"
 
-[node name="OptionButton2" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="VSyncButton" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 alignment = 1
 item_count = 3
@@ -71,22 +131,37 @@ popup/item_1/id = 1
 popup/item_2/text = "Limited"
 popup/item_2/id = 2
 
-[node name="Label3" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="LimitFPSLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 text = "Limit FPS"
 
-[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="CheckBox" type="CheckBox" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/CenterContainer"]
+[node name="LimitFPSCheckbox" type="CheckBox" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="FixedScaleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
+layout_mode = 2
+text = "Fixed Scale
+"
+
+[node name="CenterContainer2" type="CenterContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FixedScaleCheckbox" type="CheckBox" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer/CenterContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScaleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Scale 1x"
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="ScaleSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/SettingsTabs/Display/MarginContainer/GridContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 min_value = 1.0
@@ -94,40 +169,21 @@ max_value = 4.0
 step = 0.5
 value = 1.0
 
-[node name="Label4" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Music Volume"
-
-[node name="HSlider2" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-size_flags_vertical = 1
-value = 100.0
-
-[node name="Label6" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-text = "Effects Volume"
-
-[node name="HSlider3" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-size_flags_vertical = 1
-value = 100.0
-
-[node name="Control" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Revert"
+text = "Cancel"
 
-[node name="Button2" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
+[node name="ApplyButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Apply"
