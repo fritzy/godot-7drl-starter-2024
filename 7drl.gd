@@ -6,7 +6,7 @@ var target_ratio := 16.0/9.0
 var screen_size := DisplayServer.screen_get_size()
 var project_window_size: Vector2i
 
-@onready var alerts = %Alerts
+@onready var alerts: VBoxContainer = %Alerts
 
 @export var MainMenuScene: PackedScene
 @export var ConsoleScene: PackedScene
@@ -82,6 +82,9 @@ func quit() -> void:
 	
 func save() -> void:
 	$Level.save()
+
+func reset() -> void:
+	$Level.reset()
 
 func pause() -> void:
 	%Level.set_process_unhandled_input(false)

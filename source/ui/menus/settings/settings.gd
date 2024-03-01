@@ -24,7 +24,7 @@ func _scaleslider_changed(value: float) -> void:
 func _applybutton_pressed() -> void:
 	Game.resize("%0.1f" % %ScaleSlider.value)
 
-func _unhandled_input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		print("settings escape")
 		get_viewport().set_input_as_handled()

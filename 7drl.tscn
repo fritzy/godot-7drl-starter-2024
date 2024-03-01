@@ -37,7 +37,6 @@ script = ExtResource("3_m2fou")
 
 [node name="LevelTileMap" type="TileMap" parent="Level"]
 unique_name_in_owner = true
-scale = Vector2(3, 3)
 tile_set = ExtResource("4_xsbwm")
 format = 2
 

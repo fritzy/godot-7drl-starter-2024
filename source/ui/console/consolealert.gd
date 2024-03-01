@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name ConsoleAlert
 
-signal timedout(ConsoleAlert)
+signal timedout(consoleAlert: ConsoleAlert)
 var _text: String
 var _timeout: float
 
@@ -25,7 +25,7 @@ func _ready() -> void:
 	#panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN | Control.SIZE_EXPAND
 	#label.set_theme_type_variation(&"RichTextLabelSmall")
 	print ("setting text %s" % label.text)
-	var margin = MarginContainer.new()
+	var margin := MarginContainer.new()
 	#var game = get_tree().get_root().get_node(^"/root/7DRL")
 	#panel.material = game.BlurMaterial`
 	margin.add_theme_constant_override(&"margin_left", 10)

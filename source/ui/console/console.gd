@@ -18,6 +18,7 @@ func _ready() -> void:
 	ConsoleInput.connect("text_submitted", self._on_consoleinput_submitted)
 	add_command("help", cmd_help, "List commands or specific command", "help [cmd]")
 	add_command("start_game", Game.start_new_game, "Start a new game", "")
+	add_command("gen", Game.reset, "Start a new game", "")
 	add_command("quit", Game.quit, "Quit", "<>")
 	add_command("save", Game.save, "Save", "")
 	add_command("clear", cmd_clear, "Clear logs", "")
@@ -26,15 +27,6 @@ func _ready() -> void:
 	add_command("fps", cmd_fps, "Show FPS", "")
 	add_command("showpanel", cmd_showpanel, "Show a Panel or Menu", "showpanel <panel_name>")
 	add_command("hidepanel", cmd_hidepanel, "Show a Panel or Menu", "hidepanel <panel_name>")
-	add_command("setblur", cmd_setblur, "", "")
-
-func cmd_setblur(amount: String) -> String:
-	var blur := float(amount)
-	var panel := PanelManager.scenes[&"MainMenu"].get_node("CenterContainer/PanelContainer") as PanelContainer
-	var out = panel.material.get_shader_parameter("blur")
-	panel.material.set_shader_parameter("blur", blur)
-	print(out)
-	return "Setting blur %f -> %f" % [out, blur]
 
 func log(line: String, show_alert: bool = true) -> void:
 	var label := RichTextLabel.new()
@@ -50,7 +42,7 @@ func log(line: String, show_alert: bool = true) -> void:
 	Log.add_child(label)
 	print("log: %s" % line)
 	if show_alert:
-		var alert = ConsoleAlert.new(line, 5.0)
+		var alert := ConsoleAlert.new(line, 5.0)
 		Game.alerts.add_child(alert)
 		Game.alerts.move_child(alert, 0)
 		alert.timedout.connect(_alert_timedout)

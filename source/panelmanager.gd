@@ -36,7 +36,7 @@ func show_scene(scene_name: StringName, transition: int = Transition.SLIDE, side
 		return
 	var scene: CanvasLayer = scenes[scene_name]
 	scene.set_process_unhandled_input(true)
-	var mp = scene.MainPanel
+	var mp: Container = scene.MainPanel
 	scene.visible = true
 	scene_info[scene_name].visible = true
 	var slide := create_tween()
@@ -59,7 +59,7 @@ func show_scene(scene_name: StringName, transition: int = Transition.SLIDE, side
 	return slide
 
 func hide_scene(scene_name: StringName, transition: int = Transition.SLIDE, side: int = Side.TOP, time: float = 0.5) -> Tween:
-	var scene = scenes[scene_name]
+	var scene := scenes[scene_name] as Node
 	scene.set_process_unhandled_input(false)
 	var slide := create_tween()
 	if transition != Transition.NONE:
